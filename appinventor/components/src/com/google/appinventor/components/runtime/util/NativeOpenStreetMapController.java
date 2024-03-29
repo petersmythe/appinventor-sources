@@ -71,6 +71,7 @@ import org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.tileprovider.tilesource.XYTileSource;
 import org.osmdroid.util.BoundingBox;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
@@ -427,7 +428,20 @@ class NativeOpenStreetMapController implements MapController, MapListener {
         view.setTileSource(TileSourceFactory.USGS_SAT);
         break;
       case Terrain:
-        view.setTileSource(TileSourceFactory.USGS_TOPO);
+        final ITileSource tileSource = new XYTileSource("AfriGIS2", 1, 20, 256, "",
+          new String[] { 
+            "https://basemaps.afrigis.co.za/mapservice/gwc/service/tms/1.0.0/afrigis:GRP_BASE_VECTOR@EPSG:3857@png/{z}/{x}/{y}.png"
+          }
+        ) {
+            @Override
+            public String getTileURLString(MapTile aTile) {
+              return getBaseUrl().replace("{z}", String.valueOf(aTile.getZoomLevel()))
+                                 .replace("{x}", String.valueOf(aTile.getX()))
+                                 .replace("{y}", String.valueOf(aTile.getY()));
+            }
+        };
+        view.setTileSource(//TileSourceFactory.USGS_SAT);//.USGS_TOPO);
+                  tileSource);
         break;
     }
   }
