@@ -201,6 +201,25 @@ public final class MapFactory {
      */
     void setMapTypeAbstract(com.google.appinventor.components.common.MapType type);
 
+
+
+    /**
+     * Get the customUrl of the map being used.
+     *
+     * @return the customUrl of the map's active tile layer
+     */
+    String getCustomUrl();
+
+    /**
+     * Set the customUrl of the map being used.
+     *
+     * @param Set the new map customUrl for the map
+     */
+    void setCustomUrl(String url);
+
+
+
+
     /**
      * Set whether the compass is displayed on the map.
      *

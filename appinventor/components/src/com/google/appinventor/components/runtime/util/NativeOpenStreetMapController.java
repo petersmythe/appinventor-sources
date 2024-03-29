@@ -110,6 +110,7 @@ class NativeOpenStreetMapController implements MapController, MapListener {
   private RelativeLayout containerView;
   private MapView view;
   private MapType tileType;
+  private String url;
   private boolean zoomEnabled;
   private boolean zoomControlEnabled;
   private CompassOverlay compass = null;
@@ -418,6 +419,16 @@ class NativeOpenStreetMapController implements MapController, MapListener {
   }
 
   @Override
+  public String getCustomUrl() {
+    return url;
+  }
+
+  @Override
+  public void setCustomUrl(String url) {
+    this.url = url;
+  }
+
+  @Override
   public void setMapTypeAbstract(MapType type) {
     tileType = type;
     switch (type) {
@@ -428,20 +439,19 @@ class NativeOpenStreetMapController implements MapController, MapListener {
         view.setTileSource(TileSourceFactory.USGS_SAT);
         break;
       case Terrain:
-        final ITileSource tileSource = new XYTileSource("AfriGIS2", 1, 20, 256, "",
-          new String[] { 
-            "https://basemaps.afrigis.co.za/mapservice/gwc/service/tms/1.0.0/afrigis:GRP_BASE_VECTOR@EPSG:3857@png/{z}/{x}/{y}.png"
-          }
-        ) {
+      //   view.setTileSource(TileSourceFactory.USGS_TOPO);
+      //   break;
+      // case Custom:
+        final ITileSource tileSource = new XYTileSource("Custom", 1, 20, 256, "",
+          new String[] { url }) {
             @Override
             public String getTileURLString(MapTile aTile) {
               return getBaseUrl().replace("{z}", String.valueOf(aTile.getZoomLevel()))
                                  .replace("{x}", String.valueOf(aTile.getX()))
                                  .replace("{y}", String.valueOf(aTile.getY()));
             }
-        };
-        view.setTileSource(//TileSourceFactory.USGS_SAT);//.USGS_TOPO);
-                  tileSource);
+          };
+        view.setTileSource(tileSource);
         break;
     }
   }

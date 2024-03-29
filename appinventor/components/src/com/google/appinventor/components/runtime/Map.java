@@ -123,6 +123,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
     EnableZoom(true);
     EnablePan(true);
     MapTypeAbstract(MapType.Road);
+    CustomUrl("https://default");
     ShowCompass(false);
     LocationSensor(new LocationSensor(container.$form(), false));
     ShowUser(false);
@@ -349,6 +350,49 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
   public void MapTypeAbstract(MapType type) {
     mapController.setMapTypeAbstract(type);
   }
+
+
+
+
+
+
+  /**
+   * Sets or gets the tile layer used to draw the Map background. Defaults to Roads. Valid values
+   * are:
+   *
+   *   1. Roads
+   *   2. Aerial
+   *   3. Terrain
+   *
+   *   **Note:** Road layers are provided by OpenStreetMap and aerial and terrain layers are
+   * provided by the U.S. Geological Survey.
+   *
+   * @return Returns the custom URL of the base tile layer in use by the map.
+   */
+  @SimpleProperty(category = PropertyCategory.APPEARANCE,
+      description = "The URL of the custom tile layer to use as the base of the map. Valid URLs " +
+          "should include {z}, {x} and {y} placeholders and any authentication required.")
+  public String CustomUrl() {
+    return mapController.getCustomUrl();
+  }
+
+
+  /**
+   * Update the custom URL of the base tile layer in use by the map.
+   */
+  public void CustomUrl(String url) {
+    mapController.setCustomUrl(url);
+  }
+
+
+
+
+
+
+
+
+
+
 
   /**
    * Show a compass on the map. If the device provides a digital compass, orientation changes will
