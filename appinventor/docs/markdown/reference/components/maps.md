@@ -393,6 +393,9 @@ A two-dimensional container that renders map tiles in the background and allows 
  [`PanTo`](#Map.PanTo) with numerical latitude and longitude rather than convert
  to the string representation for use with this property.
 
+{:id="Map.CustomUrl" .text} *CustomUrl*
+: Update the custom URL of the base tile layer in use by the map.
+
 {:id="Map.EnablePan" .boolean} *EnablePan*
 : Enables or disables the ability of the user to move the Map.
 
@@ -433,6 +436,7 @@ A two-dimensional container that renders map tiles in the background and allows 
    1. Roads
    2. Aerial
    3. Terrain
+   4. Custom
 
    **Note:** Road layers are provided by OpenStreetMap and aerial and terrain layers are
  provided by the U.S. Geological Survey.
