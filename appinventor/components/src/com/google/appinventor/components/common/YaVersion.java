@@ -596,7 +596,7 @@ public class YaVersion {
   // - TRENDLINE_COMPONENT_VERSION was introduced
   // For YOUNG_ANDROID_VERSION 228:
   // - Renamed LineOfBestFit to Trendline
-  public static final int YOUNG_ANDROID_VERSION = 228;
+  public static final int YOUNG_ANDROID_VERSION = 229;
 
   // ............................... Blocks Language Version Number ...............................
 
@@ -1192,7 +1192,9 @@ public class YaVersion {
   // - Added ScaleUnits property
   // For MAP_COMPONENT_VERSION 6:
   // - Adds ScaleUnits and MapType dropdowns.
-  public static final int MAP_COMPONENT_VERSION = 6;
+  // For MAP_COMPONENT_VERSION 7:
+  // - Adds CustomUrl (MapType 4).
+  public static final int MAP_COMPONENT_VERSION = 7;
 
   // For MARKER_COMPONENT_VERSION 1:
   // - Initial Marker implementation using OpenStreetMap

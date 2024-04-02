@@ -123,7 +123,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
     EnableZoom(true);
     EnablePan(true);
     MapTypeAbstract(MapType.Road);
-    CustomUrl("https://default");
+    CustomUrl("https://tile.openstreetmap.org/{z}/{x}/{y}.png");
     ShowCompass(false);
     LocationSensor(new LocationSensor(container.$form(), false));
     ShowUser(false);
@@ -302,6 +302,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
    *   1. Roads
    *   2. Aerial
    *   3. Terrain
+   *   4. Custom
    *
    * @param type Integer identifying the tile set to use for the map's base layer.
    */
@@ -322,6 +323,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
    *   1. Roads
    *   2. Aerial
    *   3. Terrain
+   *   4. Custom
    *
    *   **Note:** Road layers are provided by OpenStreetMap and aerial and terrain layers are
    * provided by the U.S. Geological Survey.
@@ -330,7 +332,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
    */
   @SimpleProperty(category = PropertyCategory.APPEARANCE,
       description = "The type of tile layer to use as the base of the map. Valid values " +
-          "are: 1 (Roads), 2 (Aerial), 3 (Terrain)")
+          "are: 1 (Roads), 2 (Aerial), 3 (Terrain), 4 (Custom)")
   public @Options(MapType.class) int MapType() {
     return MapTypeAbstract().toUnderlyingValue();
   }
@@ -351,48 +353,25 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
     mapController.setMapTypeAbstract(type);
   }
 
-
-
-
-
-
   /**
-   * Sets or gets the tile layer used to draw the Map background. Defaults to Roads. Valid values
-   * are:
-   *
-   *   1. Roads
-   *   2. Aerial
-   *   3. Terrain
-   *
-   *   **Note:** Road layers are provided by OpenStreetMap and aerial and terrain layers are
-   * provided by the U.S. Geological Survey.
-   *
    * @return Returns the custom URL of the base tile layer in use by the map.
    */
+  @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_TEXT,
+      defaultValue = "e.g. https://tile.openstreetmap.org/{z}/{x}/{y}.png")
   @SimpleProperty(category = PropertyCategory.APPEARANCE,
       description = "The URL of the custom tile layer to use as the base of the map. Valid URLs " +
-          "should include {z}, {x} and {y} placeholders and any authentication required.")
+          "should include [z], [x] and [y] placeholders (but replace the square brackets with curly brackets) and any authentication required.")
   public String CustomUrl() {
     return mapController.getCustomUrl();
   }
 
-
   /**
    * Update the custom URL of the base tile layer in use by the map.
    */
+  @SimpleProperty(category = PropertyCategory.APPEARANCE)
   public void CustomUrl(String url) {
     mapController.setCustomUrl(url);
   }
-
-
-
-
-
-
-
-
-
-
 
   /**
    * Show a compass on the map. If the device provides a digital compass, orientation changes will

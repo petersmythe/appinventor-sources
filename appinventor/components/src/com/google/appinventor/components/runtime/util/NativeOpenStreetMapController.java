@@ -68,6 +68,7 @@ import org.osmdroid.tileprovider.constants.OpenStreetMapTileProviderConstants;
 import org.osmdroid.tileprovider.modules.IFilesystemCache;
 import org.osmdroid.tileprovider.modules.MapTileFilesystemProvider;
 import org.osmdroid.tileprovider.modules.MapTileSqlCacheProvider;
+import org.osmdroid.tileprovider.modules.SqlTileWriter;
 import org.osmdroid.tileprovider.modules.TileWriter;
 import org.osmdroid.tileprovider.tilesource.ITileSource;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -110,7 +111,7 @@ class NativeOpenStreetMapController implements MapController, MapListener {
   private RelativeLayout containerView;
   private MapView view;
   private MapType tileType;
-  private String url;
+  private String customUrl;
   private boolean zoomEnabled;
   private boolean zoomControlEnabled;
   private CompassOverlay compass = null;
@@ -420,12 +421,21 @@ class NativeOpenStreetMapController implements MapController, MapListener {
 
   @Override
   public String getCustomUrl() {
-    return url;
+    return customUrl;
   }
 
   @Override
   public void setCustomUrl(String url) {
-    this.url = url;
+    if (!url.equals(this.customUrl)) {
+      // Clear any cached tiles if the custom URL changes
+      // TODO: even though isCleared returns true, the cache is still not empty.  Debug further.
+      // Only solution is to use Android's Storage > Clear cache, which does work.
+      SqlTileWriter sqlTileWriter = new SqlTileWriter();
+      boolean isCleared = sqlTileWriter.purgeCache(); //view.getTileProvider().getTileSource().name()); //"Custom"); 
+      // setRotationEnabled(isCleared);
+      view.getTileProvider().clearTileCache();
+    }
+    this.customUrl = url;
   }
 
   @Override
@@ -439,11 +449,12 @@ class NativeOpenStreetMapController implements MapController, MapListener {
         view.setTileSource(TileSourceFactory.USGS_SAT);
         break;
       case Terrain:
-      //   view.setTileSource(TileSourceFactory.USGS_TOPO);
-      //   break;
-      // case Custom:
+        view.setTileSource(TileSourceFactory.USGS_TOPO);
+        break;
+      // case Terrain:
+      case Custom:
         final ITileSource tileSource = new XYTileSource("Custom", 1, 20, 256, "",
-          new String[] { url }) {
+          new String[] { customUrl }) {
             @Override
             public String getTileURLString(MapTile aTile) {
               return getBaseUrl().replace("{z}", String.valueOf(aTile.getZoomLevel()))
