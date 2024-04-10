@@ -596,7 +596,7 @@ public class YaVersion {
   // - TRENDLINE_COMPONENT_VERSION was introduced
   // For YOUNG_ANDROID_VERSION 228:
   // - Renamed LineOfBestFit to Trendline
-  public static final int YOUNG_ANDROID_VERSION = 229;
+  public static final int YOUNG_ANDROID_VERSION = 228;
 
   // ............................... Blocks Language Version Number ...............................
 

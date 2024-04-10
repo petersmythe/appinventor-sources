@@ -357,7 +357,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
    * @return Returns the custom URL of the base tile layer in use by the map.
    */
   @DesignerProperty(editorType = PropertyTypeConstants.PROPERTY_TYPE_TEXT,
-      defaultValue = "e.g. https://tile.openstreetmap.org/{z}/{x}/{y}.png")
+      defaultValue = "https://tile.openstreetmap.org/{z}/{x}/{y}.png")
   @SimpleProperty(category = PropertyCategory.APPEARANCE,
       description = "The URL of the custom tile layer to use as the base of the map. Valid URLs " +
           "should include [z], [x] and [y] placeholders (but replace the square brackets with curly brackets) and any authentication required. " + 

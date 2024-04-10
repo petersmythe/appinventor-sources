@@ -436,6 +436,20 @@ class NativeOpenStreetMapController implements MapController, MapListener {
       view.getTileProvider().clearTileCache();
     }
     this.customUrl = url;
+    view.setTileSource(getCustomTileSource());
+  }
+
+  private ITileSource getCustomTileSource() {
+    final ITileSource tileSource = new XYTileSource("Custom", 1, 20, 256, "",
+      new String[] { customUrl }) {
+        @Override
+        public String getTileURLString(MapTile aTile) {
+          return getBaseUrl().replace("{z}", String.valueOf(aTile.getZoomLevel()))
+                             .replace("{x}", String.valueOf(aTile.getX()))
+                             .replace("{y}", String.valueOf(aTile.getY()));
+        }
+      };
+    return tileSource;
   }
 
   @Override
@@ -453,16 +467,7 @@ class NativeOpenStreetMapController implements MapController, MapListener {
         break;
       // case Terrain:
       case Custom:
-        final ITileSource tileSource = new XYTileSource("Custom", 1, 20, 256, "",
-          new String[] { customUrl }) {
-            @Override
-            public String getTileURLString(MapTile aTile) {
-              return getBaseUrl().replace("{z}", String.valueOf(aTile.getZoomLevel()))
-                                 .replace("{x}", String.valueOf(aTile.getX()))
-                                 .replace("{y}", String.valueOf(aTile.getY()));
-            }
-          };
-        view.setTileSource(tileSource);
+        view.setTileSource(getCustomTileSource());
         break;
     }
   }
