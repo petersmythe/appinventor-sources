@@ -62,7 +62,7 @@ import org.osmdroid.util.BoundingBox;
 /**
  * A two-dimensional container that renders map tiles in the background and allows for multiple
  * {@link Marker} elements to identify points on the map. Map tiles are supplied by OpenStreetMap
- * contributors and the the United States Geological Survey.
+ * contributors and the the United States Geological Survey, or a custom basemap URL can be provided.
  *
  * The `Map` component provides three utilities for manipulating its boundaries with App Inventor.
  * First, a locking mechanism is provided to allow the map to be moved relative to other components
@@ -80,7 +80,7 @@ import org.osmdroid.util.BoundingBox;
   androidMinSdk = 8,
   description = "<p>A two-dimensional container that renders map tiles in the background and " +
     "allows for multiple Marker elements to identify points on the map. Map tiles are supplied " +
-    "by OpenStreetMap contributors and the United States Geological Survey.</p>" +
+    "by OpenStreetMap contributors and the United States Geological Survey, or a custom basemap URL can be provided.</p>" +
     "<p>The Map component provides three utilities for manipulating its boundaries within App " +
     "Inventor. First, a locking mechanism is provided to allow the map to be moved relative to " +
     "other components on the Screen. Second, when unlocked, the user can pan the Map to any " +
@@ -368,6 +368,7 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
 
   /**
    * Update the custom URL of the base tile layer in use by the map.
+   * e.g. https://tile.openstreetmap.org/{z}/{x}/{y}.png
    */
   @SimpleProperty(category = PropertyCategory.APPEARANCE)
   public void CustomUrl(String url) {
