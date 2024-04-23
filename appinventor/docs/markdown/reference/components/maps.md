@@ -396,6 +396,7 @@ A two-dimensional container that renders map tiles in the background and allows 
 {:id="Map.CustomUrl" .text} *CustomUrl*
 : Update the custom URL of the base tile layer in use by the map.
  e.g. https://tile.openstreetmap.org/{z}/{x}/{y}.png
+ e.g. https://example.com/geoserver/gwc/service/tms/1.0.0/workspace:layername
 
 {:id="Map.EnablePan" .boolean} *EnablePan*
 : Enables or disables the ability of the user to move the Map.
