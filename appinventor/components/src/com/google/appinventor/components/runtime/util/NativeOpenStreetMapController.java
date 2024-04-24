@@ -465,7 +465,6 @@ class NativeOpenStreetMapController implements MapController, MapListener {
       case Terrain:
         view.setTileSource(TileSourceFactory.USGS_TOPO);
         break;
-      // case Terrain:
       case Custom:
         view.setTileSource(getCustomTileSource());
         break;

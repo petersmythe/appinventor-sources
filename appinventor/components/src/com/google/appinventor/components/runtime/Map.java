@@ -360,8 +360,9 @@ public class Map extends MapFeatureContainerBase implements MapEventListener {
       defaultValue = "https://tile.openstreetmap.org/{z}/{x}/{y}.png")
   @SimpleProperty(category = PropertyCategory.APPEARANCE,
       description = "The URL of the custom tile layer to use as the base of the map. Valid URLs " +
-          "should include &#123;z}, &#123;x} and &#123;y} placeholders and any authentication required. " + 
-          "e.g. https://tile.openstreetmap.org/&#123;z}/&#123;x}/&#123;y}.png or https://example.com/geoserver/gwc/service/tms/1.0.0/workspace:layername&#64;EPSG:3857&#64;jpeg/&#123;z}/&#123;x}/&#123;y}.jpeg&#63;flipY=true&authkey=123")
+          "should include &#123;z}, &#123;x} and &#123;y} placeholders and any authentication required. </p></p>" + 
+          "e.g. https://tile.openstreetmap.org/&#123;z}/&#123;x}/&#123;y}.png </p>" +
+          "or https://example.com/geoserver/gwc/service/tms/1.0.0/workspace:layername&#64;EPSG:3857&#64;jpeg/&#123;z}/&#123;x}/&#123;y}.jpeg&#63;flipY=true&authkey=123")
   public String CustomUrl() {
     return mapController.getCustomUrl();
   }
