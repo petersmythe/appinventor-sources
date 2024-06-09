@@ -77,6 +77,7 @@ open class Map: ViewComponent, MKMapViewDelegate, UIGestureRecognizerDelegate, M
   private var _featuresState = 0
   private var _boundsChangeReady: Bool = false
   private var _terrainOverlay: MKTileOverlay?
+  private var _customUrlOverlay: MKTileOverlay?
 
   private var _activeOverlay: MapOverlayShape? = nil
   private var _lastPoint: CLLocationCoordinate2D? = nil
