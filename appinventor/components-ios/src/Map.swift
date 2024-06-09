@@ -28,6 +28,7 @@ enum AIMapType: Int32 {
   case roads = 1
   case aerial = 2
   case terrain = 3
+  case custom = 4
 }
 
 typealias CLLocationDirection = Double
@@ -347,7 +348,7 @@ open class Map: ViewComponent, MKMapViewDelegate, UIGestureRecognizerDelegate, M
       return _mapType.rawValue
     }
     set(type) {
-      if !(1...3 ~= type) {
+      if !(1...4 ~= type) {
         form?.dispatchErrorOccurredEvent(self, "MapType", ErrorMessage.ERROR_INVALID_MAP_TYPE.code,
            ErrorMessage.ERROR_INVALID_MAP_TYPE.message)
         return
@@ -364,6 +365,9 @@ open class Map: ViewComponent, MKMapViewDelegate, UIGestureRecognizerDelegate, M
       case .terrain:
         mapView.mapType = .standard // set that way zooming in too far displays a visible grid
         setupTerrainTileRenderer()
+      case .terrain:
+        mapView.mapType = .custom
+        setupCustomTileRenderer() //TODO
       }
     }
   }
@@ -889,7 +893,7 @@ open class Map: ViewComponent, MKMapViewDelegate, UIGestureRecognizerDelegate, M
 
   public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
     if let tileOverlay = overlay as? MKTileOverlay {
-      return _mapType == .terrain ? MKTileOverlayRenderer(tileOverlay: tileOverlay) : MKOverlayRenderer()
+      return _mapType == .terrain ? MKTileOverlayRenderer(tileOverlay: tileOverlay) : MKOverlayRenderer() //TODO
     } else if let shape = overlay as? MapCircleOverlay {
       let renderer = MKCircleRenderer(circle: shape)
       shape.renderer = renderer
