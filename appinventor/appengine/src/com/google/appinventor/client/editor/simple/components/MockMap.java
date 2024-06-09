@@ -69,7 +69,6 @@ public final class MockMap extends MockContainer {
   private double longitude = -71.093612;
   private int zoomLevel = 13;
   private int selectedTileLayer = 1;
-  // private String customUrl = "";
   private boolean zoomControl = false;
   private boolean compassEnabled = false;
   private boolean userLocationEnabled = false;
@@ -227,7 +226,6 @@ public final class MockMap extends MockContainer {
   }
 
   private void setCustomUrl(String newCustomUrl) {
-//    customUrl = newCustomUrl;
     updateCustomUrl(newCustomUrl);
   }
 
@@ -494,9 +492,9 @@ public final class MockMap extends MockContainer {
       L.tileLayer('//basemap.nationalmap.gov/ArcGIS/rest/services/USGSTopo/MapServer/tile/{z}/{y}/{x}',
                   {minZoom: 0, maxZoom: 15,
                    attribution: 'Map data &copy; <a href="http://www.usgs.gov">USGS</a>'}),
-      L.tileLayer('https://basemaps.afrigis.co.za/mapservice/gwc/service/tms/1.0.0/afrigis:GRP_BASE_VECTOR@EPSG:3857@png/{z}/{x}/{y}.png?flipY=true',
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   {minZoom: 0, maxZoom: 18,
-                   attribution: 'Custom map data'})
+                   attribution: 'Custom map'})
     ];
     this.@com.google.appinventor.client.editor.simple.components.MockMap::tileLayers = tileLayers;
     this.@com.google.appinventor.client.editor.simple.components.MockMap::baseLayer =
@@ -624,10 +622,14 @@ public final class MockMap extends MockContainer {
     var tileLayers = this.@com.google.appinventor.client.editor.simple.components.MockMap::tileLayers;
     var baseLayer = this.@com.google.appinventor.client.editor.simple.components.MockMap::baseLayer;
     if (map && baseLayer && tileLayers) {
-      alert(tileLayers[4]);
       tileLayers[4] = L.tileLayer(customUrl,
                   {minZoom: 0, maxZoom: 18,
                    attribution: 'Custom map data'});
+      map.removeLayer(baseLayer);
+      baseLayer = tileLayers[4];
+      map.addLayer(baseLayer);
+      baseLayer.bringToBack();
+      this.@com.google.appinventor.client.editor.simple.components.MockMap::tileLayers = tileLayers;
     }
   }-*/;
 
