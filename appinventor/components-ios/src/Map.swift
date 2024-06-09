@@ -160,6 +160,7 @@ open class Map: ViewComponent, MKMapViewDelegate, UIGestureRecognizerDelegate, M
     EnableZoom = true
     EnablePan = true
     MapType = 1
+    CustomUrl = ""
     Rotation = 0.0
     ScaleUnits = 1
     ShowZoom = false
@@ -377,6 +378,20 @@ open class Map: ViewComponent, MKMapViewDelegate, UIGestureRecognizerDelegate, M
     }
   }
   
+  @objc open var CustomUrl: String? {
+      get {
+          return CustomUrl
+      }
+      set(newUrl) {
+          guard let newUrl = newUrl, newUrl != CustomUrl else {
+              return
+          }
+          CustomUrl = newUrl
+          removeCustomUrlTileRenderer()
+          setupCustomUrlTileRenderer()
+      }
+  }
+
   @objc open var ScaleUnits: Int32 {
     get {
       return _scaleUnits
@@ -900,8 +915,7 @@ open class Map: ViewComponent, MKMapViewDelegate, UIGestureRecognizerDelegate, M
    * Adds a custom tile overlay that matches the CustomUrl overlay on Android
    */
   private func setupCustomUrlTileRenderer() {
-    let template = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
-    _customUrlOverlay = MKTileOverlay(urlTemplate: template)
+    _customUrlOverlay = MKTileOverlay(urlTemplate: CustomUrl)
     _customUrlOverlay!.canReplaceMapContent = true
     mapView.insertOverlay(_customUrlOverlay!, at: 0, level: .aboveLabels)
   }
