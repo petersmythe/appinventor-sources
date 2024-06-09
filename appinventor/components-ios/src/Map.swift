@@ -358,16 +358,20 @@ open class Map: ViewComponent, MKMapViewDelegate, UIGestureRecognizerDelegate, M
       switch _mapType {
       case .roads:
         removeTerrainTileRenderer()
+        removeCustomUrlTileRenderer()
         mapView.mapType = .standard
       case .aerial:
         removeTerrainTileRenderer()
+        removeCustomUrlTileRenderer()
         mapView.mapType = .satellite
       case .terrain:
+        removeCustomUrlTileRenderer()
         mapView.mapType = .standard // set that way zooming in too far displays a visible grid
         setupTerrainTileRenderer()
-      case .terrain:
-        mapView.mapType = .custom
-        setupCustomTileRenderer() //TODO
+      case .custom:
+        removeTerrainTileRenderer()
+        mapView.mapType = .standard
+        setupCustomUrlTileRenderer()
       }
     }
   }
@@ -891,9 +895,25 @@ open class Map: ViewComponent, MKMapViewDelegate, UIGestureRecognizerDelegate, M
     }
   }
 
+  /**
+   * Adds a custom tile overlay that matches the CustomUrl overlay on Android
+   */
+  private func setupCustomUrlTileRenderer() {
+    let template = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+    _customUrlOverlay = MKTileOverlay(urlTemplate: template)
+    _customUrlOverlay!.canReplaceMapContent = true
+    mapView.insertOverlay(_customUrlOverlay!, at: 0, level: .aboveLabels)
+  }
+
+  private func removeCustomUrlTileRenderer() {
+    if let overlay = _customUrlOverlay {
+      mapView.removeOverlay(overlay)
+    }
+  }
+
   public func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
     if let tileOverlay = overlay as? MKTileOverlay {
-      return _mapType == .terrain ? MKTileOverlayRenderer(tileOverlay: tileOverlay) : MKOverlayRenderer() //TODO
+      return (_mapType == .terrain || _mapType == .custom) ? MKTileOverlayRenderer(tileOverlay: tileOverlay) : MKOverlayRenderer()
     } else if let shape = overlay as? MapCircleOverlay {
       let renderer = MKCircleRenderer(circle: shape)
       shape.renderer = renderer
